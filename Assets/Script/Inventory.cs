@@ -4,28 +4,11 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
 
-    class ItemNode
-    {
-        int ItemID;
-        string ItemName;
-
-        public string getName() {return ItemName;}
-
-        public ItemNode(int ItemID,string ItemName)
-        {
-            this.ItemID =ItemID;
-            this.ItemName =ItemName;
-        }
-        public ItemNode()
-        {
-            ;
-        }        
-    }
+   
     ItemNode[] ItemLoader;      //아이템 출력 순서... 써야되나?
 
     Dictionary<int, int> ItemCargo = new Dictionary<int, int>();      //아이템 개수 <key:ItemID,Value:Itemcount>
-    Dictionary<int, ItemNode> ItemData = new Dictionary<int, ItemNode>();
-
+    Dictionary<int, ItemNode> ItemData = new Dictionary<int, ItemNode>();   //아이템 정보 (아이템 ID를 받으면 아이템 정보를 넘겨줌)
     public void Update()
     {
         if (Input.GetKeyDown("i") == true)
@@ -37,6 +20,27 @@ public class Inventory : MonoBehaviour {
             }
             Debug.Log(ans);
         }
+    }
+    public int GetItemCount(int ItemID)                     //이거로 호출하면 되자너 ㅡㅡ
+    {
+        if (ItemCargo.ContainsKey(ItemID) == true)
+            return ItemCargo[ItemID];
+
+        return 0;
+    }
+    public string GetItemData(int ItemID)
+    {        
+        return ItemData[ItemID].getName();       
+    }
+    public int FlushItem(int ItemID)
+    {
+        if (ItemCargo.ContainsKey(ItemID) == false)
+            return -1;
+        ItemCargo.Remove(ItemID);
+        ItemData.Remove(ItemID);
+
+
+        return ItemID;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -55,15 +59,7 @@ public class Inventory : MonoBehaviour {
                 ItemData.Add(ItemID, inputNode);
             }
         }
-        
-
     }
-    public int getItemCount(int ItemID)
-    {
-        if (ItemCargo.ContainsKey(ItemID) == true)
-        return ItemCargo[ItemID];
 
-        return 0;
-    }
 
 }
