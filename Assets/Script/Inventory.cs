@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
 
+    [Header("Inventory Cargo")]
+    [Range(-1, 100)]
+    public int ItemCargoSize = 10;      // -1 = 무한대
+    private int nowCargeSize = 0;
    
     ItemNode[] ItemLoader;      //아이템 출력 순서... 써야되나?
 
@@ -21,7 +25,7 @@ public class Inventory : MonoBehaviour {
             {
                 ans += "Item [" + ItemData[temp.Key].getName() + "] are [" + temp.Value + "]in cargo \n";
             }
-            Debug.Log(ans);
+            Debug.Log(ans + "\n Weight : " + nowCargeSize + "/" + ItemCargoSize);       // (ItemCargoSize == -1 ? "∞" : ItemCargoSize)
         }
         if (Input.anyKeyDown == true)
         {
@@ -72,7 +76,7 @@ public class Inventory : MonoBehaviour {
             i++;
             if (i == input)
             {
-                Debug.Log("Using " + ItemData[temp.Key].getName() + ", left : " + (temp.Value-1));
+                Debug.Log("Using " + ItemData[temp.Key].getName() + ", left : " + (temp.Value-1));               
                 DecreaseItem(temp.Key);
                 break;
             }
@@ -81,18 +85,23 @@ public class Inventory : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-     if (other.gameObject.tag == "Item")
+        if (other.gameObject.tag == "Item")
         {
-            int ItemID = other.GetComponent<Item>().getID();
-            if (ItemCargo.ContainsKey(ItemID) == true)
-            {
-                ItemCargo[ItemID]++;
-            }
-            else
-            {
-                ItemCargo.Add(ItemID, 1);
-                ItemNode inputNode = new ItemNode(ItemID, other.GetComponent<Item>().getItemName());
-                ItemData.Add(ItemID, inputNode);
+            Item tempNode = other.GetComponent<Item>();
+            if (nowCargeSize + (int)tempNode.getWeight() < ItemCargoSize || ItemCargoSize == -1) {
+                int ItemID = tempNode.getID();
+                if (ItemCargo.ContainsKey(ItemID) == true)
+                {
+                    ItemCargo[ItemID]++;
+                }
+                else
+                {
+                    ItemCargo.Add(ItemID, 1);
+                    ItemNode inputNode = new ItemNode(ItemID, tempNode.getItemName(), tempNode.getWeight());
+                    ItemData.Add(ItemID, inputNode);
+                }
+                nowCargeSize += (int)tempNode.getWeight();
+                Destroy(other.gameObject);
             }
         }
     }
@@ -100,6 +109,8 @@ public class Inventory : MonoBehaviour {
     private int DecreaseItem(int ItemID)
     {
         //Debug.Log("Key:" + ItemID);
+        //Debug.Log("loose Weight" + ItemData[ItemID].getWeight());
+        nowCargeSize -= (int)ItemData[ItemID].getWeight();
         if (ItemCargo[ItemID] == 1)
         {
             return FlushItem(ItemID);

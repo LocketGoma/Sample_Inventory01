@@ -1045,6 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a404d41ab83f9642b2fa55d36ade5fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemCargoSize: 10
 --- !u!61 &523981988
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2021,6 +2022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemID: 1001
   ItemName: Seed
+  Weight: 1
 --- !u!1 &1050748664
 GameObject:
   m_ObjectHideFlags: 0
@@ -2468,6 +2470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemID: 1002
   ItemName: Chestnut
+  Weight: 4
 --- !u!1 &1123869486
 GameObject:
   m_ObjectHideFlags: 0
@@ -2816,6 +2819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemID: 1004
   ItemName: Pack
+  Weight: 3
 --- !u!1 &1250447653 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1994449294976880, guid: eda0059a2322bc644929acc37f217829,
@@ -2854,6 +2858,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemID: 1005
   ItemName: Bomb
+  Weight: 5
 --- !u!50 &1250447657
 Rigidbody2D:
   serializedVersion: 4
@@ -3431,6 +3436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemID: 1003
   ItemName: StarCandy
+  Weight: 2
 --- !u!1 &1533982724
 GameObject:
   m_ObjectHideFlags: 0
